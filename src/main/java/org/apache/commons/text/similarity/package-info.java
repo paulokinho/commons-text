@@ -28,8 +28,10 @@
  * <li>{@link org.apache.commons.text.similarity.CosineSimilarity Cosine Similarity}</li>
  * <li>{@link org.apache.commons.text.similarity.FuzzyScore Fuzzy Score}</li>
  * <li>{@link org.apache.commons.text.similarity.HammingDistance Hamming Distance}</li>
- * <li>{@link org.apache.commons.text.similarity.JaroWrinklerDistance Jaro-Wrinkler Distance}</li>
+ * <li>{@link org.apache.commons.text.similarity.JaroWinklerDistance Jaro-Winkler Distance}</li>
  * <li>{@link org.apache.commons.text.similarity.LevenshteinDistance Levenshtein Distance}</li>
+ * <li>{@link org.apache.commons.text.similarity.LongestCommonSubsequenceDistance
+ * Longest Commons Subsequence Distance}</li>
  * </ul>
  *
  * <p>The {@link org.apache.commons.text.similarity.CosineDistance Cosine Distance}

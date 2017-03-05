@@ -20,7 +20,6 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
-import java.util.Locale;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +27,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 /**
- * Unit tests for {@link org.apache.commons.text.similarity.EditDistanceFrom}.
+ * Unit tests for {@link EditDistanceFrom}.
  *
  * @param <R> The {@link EditDistance} return type.
  */
@@ -59,10 +58,6 @@ public class ParameterizedEditDistanceFromTest<R> {
             { new HammingDistance(), "Japtheth, Ham, Shem", "Japtheth, HAM, Shem", 2 },
             { new HammingDistance(), "Hamming", "Hamming", 0 },
 
-            { new JaroWrinklerDistance(), "elephant", "hippo", 0.44 },
-            { new JaroWrinklerDistance(), "hippo", "elephant",  0.44 },
-            { new JaroWrinklerDistance(), "hippo", "zzzzzzzz", 0.0 },
-
             { new LevenshteinDistance(), "Apache", "a patchy", 4 },
             { new LevenshteinDistance(), "go", "no go", 3 },
             { new LevenshteinDistance(), "go", "go", 0 },
@@ -73,7 +68,8 @@ public class ParameterizedEditDistanceFromTest<R> {
 
             {
                 new EditDistance<Boolean>() {
-                    public Boolean apply(CharSequence left, CharSequence right) {
+                    @Override
+                    public Boolean apply(final CharSequence left, final CharSequence right) {
                         return left == right || (left != null && left.equals(right));
                     }
                 },
@@ -87,7 +83,7 @@ public class ParameterizedEditDistanceFromTest<R> {
 
     @Test
     public void test() {
-        EditDistanceFrom<R> editDistanceFrom = new EditDistanceFrom<R>(editDistance, left);
+        final EditDistanceFrom<R> editDistanceFrom = new EditDistanceFrom<>(editDistance, left);
         assertThat(editDistanceFrom.apply(right), equalTo(distance));
     }
 

@@ -27,6 +27,8 @@ import java.util.Map;
  *
  * @see <a href="https://docs.python.org/dev/library/collections.html#collections.Counter">
  * https://docs.python.org/dev/library/collections.html#collections.Counter</a>
+ *
+ * @since 1.0
  */
 final class Counter {
 
@@ -44,9 +46,9 @@ final class Counter {
      * @param tokens array of tokens
      * @return dict, where the elements are key, and the count the value
      */
-    public static Map<CharSequence, Integer> of(CharSequence[] tokens) {
-        final Map<CharSequence, Integer> innerCounter = new HashMap<CharSequence, Integer>();
-        for (CharSequence token : tokens) {
+    public static Map<CharSequence, Integer> of(final CharSequence[] tokens) {
+        final Map<CharSequence, Integer> innerCounter = new HashMap<>();
+        for (final CharSequence token : tokens) {
             if (innerCounter.containsKey(token)) {
                 int value = innerCounter.get(token);
                 innerCounter.put(token, ++value);

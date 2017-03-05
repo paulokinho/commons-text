@@ -48,6 +48,7 @@ package org.apache.commons.text.diff;
  * @see EditScript
  * @see EditCommand
  * @see CommandVisitor
+ * @since 1.0
  */
 public class StringsComparator {
 
@@ -84,7 +85,7 @@ public class StringsComparator {
      * @param left first character sequence to be compared
      * @param right second character sequence to be compared
      */
-    public StringsComparator(String left, String right) {
+    public StringsComparator(final String left, final String right) {
         this.left = left;
         this.right = right;
 
@@ -108,7 +109,7 @@ public class StringsComparator {
      *         sequences
      */
     public EditScript<Character> getScript() {
-        final EditScript<Character> script = new EditScript<Character>();
+        final EditScript<Character> script = new EditScript<>();
         buildScript(0, left.length(), 0, right.length(), script);
         return script;
     }
@@ -134,15 +135,15 @@ public class StringsComparator {
             int j = start2;
             while (i < end1 || j < end2) {
                 if (i < end1 && j < end2 && left.charAt(i) == right.charAt(j)) {
-                    script.append(new KeepCommand<Character>(left.charAt(i)));
+                    script.append(new KeepCommand<>(left.charAt(i)));
                     ++i;
                     ++j;
                 } else {
                     if (end1 - start1 > end2 - start2) {
-                        script.append(new DeleteCommand<Character>(left.charAt(i)));
+                        script.append(new DeleteCommand<>(left.charAt(i)));
                         ++i;
                     } else {
-                        script.append(new InsertCommand<Character>(right.charAt(j)));
+                        script.append(new InsertCommand<>(right.charAt(j)));
                         ++j;
                     }
                 }
@@ -154,7 +155,7 @@ public class StringsComparator {
                         start2, middle.getStart() - middle.getDiag(),
                         script);
             for (int i = middle.getStart(); i < middle.getEnd(); ++i) {
-                script.append(new KeepCommand<Character>(left.charAt(i)));
+                script.append(new KeepCommand<>(left.charAt(i)));
             }
             buildScript(middle.getEnd(), end1,
                         middle.getEnd() - middle.getDiag(), end2,
@@ -179,7 +180,7 @@ public class StringsComparator {
      * @param end2  the end of the second sequence to be compared
      * @return the middle snake
      */
-    private Snake getMiddleSnake(int start1, int end1, int start2, int end2) {
+    private Snake getMiddleSnake(final int start1, final int end1, final int start2, final int end2) {
         // Myers Algorithm
         // Initialisations
         final int m = end1 - start1;
@@ -215,7 +216,7 @@ public class StringsComparator {
                 }
                 // Second step
                 if (delta % 2 != 0 && delta - d <= k && k <= delta + d) {
-                    if (vUp[i - delta] <= vDown[i]) {
+                    if (vUp[i - delta] <= vDown[i]) { // NOPMD
                         return buildSnake(vUp[i - delta], k + start1 - start2, end1, end2);
                     }
                 }
@@ -241,7 +242,7 @@ public class StringsComparator {
                 }
                 // Second step
                 if (delta % 2 == 0 && -d <= k && k <= d) {
-                    if (vUp[i] <= vDown[i + delta]) {
+                    if (vUp[i] <= vDown[i + delta]) { // NOPMD
                         return buildSnake(vUp[i], k + start1 - start2, end1, end2);
                     }
                 }

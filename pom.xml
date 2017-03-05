@@ -16,25 +16,25 @@
  limitations under the License.
 -->
 <project
-  xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>39</version>
+    <version>42</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>commons-text</artifactId>
-  <version>0.1-SNAPSHOT</version>
+  <version>1.0-SNAPSHOT</version>
   <name>Apache Commons Text</name>
 
   <inceptionYear>2014</inceptionYear>
   <description>
-  Apache Commons Text is a library focused on algorithms working on strings.
+    Apache Commons Text is a library focused on algorithms working on strings.
   </description>
 
-  <url>http://commons.apache.org/sandbox/commons-text/</url>
+  <url>http://commons.apache.org/proper/commons-text/</url>
 
   <issueManagement>
     <system>jira</system>
@@ -58,18 +58,40 @@
       <id>britter</id>
       <email>britter@apache.org</email>
     </developer>
+    <developer>
+      <name>Rob Tompkins</name>
+      <id>chtompki</id>
+      <email>chtompki@apache.org</email>
+    </developer>
+    <developer>
+      <name>Gary Gregory</name>
+      <id>ggregory</id>
+      <email>ggregory@apache.org</email>
+    </developer>
   </developers>
-  <contributors>
 
+  <contributors>
+    <contributor>
+      <name>Don Jeba</name>
+      <email>donjeba@yahoo.com</email>
+    </contributor>
+    <contributor>
+      <name>Sampanna Kahu</name>
+    </contributor>
+    <contributor>
+      <name>Jarek Strzelecki</name>
+    </contributor>
+    <contributor>
+      <name>Lee Adcock</name>
+    </contributor>
   </contributors>
 
-  <!-- Lang should depend on very little -->
   <dependencies>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <!-- if upgrading, be sure to check shaded jar relocations! -->
-      <version>3.4</version>
+      <version>3.5</version>
     </dependency>
     <!-- testing -->
     <dependency>
@@ -84,20 +106,13 @@
       <version>1.3</version>
       <scope>test</scope>
     </dependency>
-    <!-- Used to parse inputs for o.a.c.t.names.ParserTest-->
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-csv</artifactId>
-      <version>1.1</version>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <distributionManagement>
     <site>
       <id>apache.website</id>
       <name>Apache Commons Site</name>
-      <url>scm:svn:https://svn.apache.org/repos/infra/websites/production/commons/content/sandbox/commons-text/</url>
+      <url>scm:svn:https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text/</url>
     </site>
   </distributionManagement>
 
@@ -108,20 +123,42 @@
     <maven.compiler.target>1.7</maven.compiler.target>
 
     <commons.componentid>text</commons.componentid>
-    <!-- Current 3.x release series -->
-    <commons.release.version>0.1</commons.release.version>
-    <commons.release.desc>(Java 6.0+)</commons.release.desc>
+
+    <commons.release.version>1.0-beta-1</commons.release.version>
+    <commons.rc.version>RC4</commons.rc.version>
+    <commons.release.desc>(Java 7+)</commons.release.desc>
 
     <commons.jira.id>TEXT</commons.jira.id>
     <commons.jira.pid>12318221</commons.jira.pid>
 
     <commons.site.path>text</commons.site.path>
-    <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/sandbox/commons-text</commons.scmPubUrl>
+    <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
+
+    <!-- Override default buildNumber timestamp format, needed for coveralls plugin -->
+    <maven.buildNumber.timestampFormat>{0,date,yyyy-MM-dd HH:mm:ssZ}</maven.buildNumber.timestampFormat>
+
+    <!-- Override 01-23-2017 for java 9-ea compatibility -->
+    <commons.jacoco.version>0.7.8</commons.jacoco.version>
   </properties>
 
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.rat</groupId>
+          <artifactId>apache-rat-plugin</artifactId>
+          <configuration>
+            <excludes>
+              <exclude>site-content/**</exclude>
+              <exclude>src/site/resources/download_lang.cgi</exclude>
+              <exclude>src/test/resources/stringEscapeUtilsTestData.txt</exclude>
+            </excludes>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
@@ -153,53 +190,6 @@
           </ignorePathsToDelete>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <!-- v1.7 is somehow not compatible with commons-parent 25; see
-             http://svn.apache.org/viewvc?diff_format=h&view=revision&revision=1350822 -->
-        <version>1.6</version>
-        <configuration>
-          <minimizeJar>true</minimizeJar>
-          <createDependencyReducedPom>true</createDependencyReducedPom>
-          <createSourcesJar>true</createSourcesJar>
-          <artifactSet>
-            <includes>
-              <include>org.apache.commons:commons-lang3</include>
-            </includes>
-          </artifactSet>
-          <relocations>
-            <relocation>
-              <pattern>org.apache.commons.lang3.builder.</pattern>
-              <shadedPattern>org.apache.commons.text._lang3.builder.__</shadedPattern>
-            </relocation>
-            <relocation>
-              <pattern>org.apache.commons.lang3.exception.</pattern>
-              <shadedPattern>org.apache.commons.text._lang3.exception.__</shadedPattern>
-            </relocation>
-            <relocation>
-              <pattern>org.apache.commons.lang3.mutable.</pattern>
-              <shadedPattern>org.apache.commons.text._lang3.mutable.__</shadedPattern>
-            </relocation>
-            <relocation>
-              <pattern>org.apache.commons.lang3.tuple.</pattern>
-              <shadedPattern>org.apache.commons.text._lang3.tuple.__</shadedPattern>
-            </relocation>
-            <relocation>
-              <pattern>org.apache.commons.lang3.</pattern>
-              <shadedPattern>org.apache.commons.text._lang3.__</shadedPattern>
-            </relocation>
-          </relocations>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
 
   </build>
@@ -211,10 +201,10 @@
         <version>2.13</version>
         <configuration>
           <enableRulesSummary>false</enableRulesSummary>
-          <configLocation>${basedir}/src/main/resources/org/apache/commons/text/checkstyle.xml</configLocation>
-          <headerLocation>${basedir}/src/main/resources/org/apache/commons/text/license-header.txt</headerLocation>
-          <suppressionsLocation>${basedir}/src/main/resources/org/apache/commons/text/checkstyle-suppressions.xml</suppressionsLocation>
-          <suppressionsFileExpression>${basedir}/src/main/resources/org/apache/commons/text/checkstyle-suppressions.xml</suppressionsFileExpression>
+          <configLocation>${basedir}/checkstyle.xml</configLocation>
+          <headerLocation>${basedir}/license-header.txt</headerLocation>
+          <suppressionsLocation>${basedir}/checkstyle-suppressions.xml</suppressionsLocation>
+          <suppressionsFileExpression>${basedir}/checkstyle-suppressions.xml</suppressionsFileExpression>
         </configuration>
         <reportSets>
           <reportSet>
@@ -232,6 +222,7 @@
         <configuration>
           <threshold>Normal</threshold>
           <effort>Default</effort>
+          <excludeFilterFile>${basedir}/fb-excludes.xml</excludeFilterFile>
         </configuration>
       </plugin>
       <plugin>
@@ -244,7 +235,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.2</version>
+        <version>3.7</version>
         <configuration>
           <targetJdk>${maven.compiler.target}</targetJdk>
         </configuration>
@@ -305,7 +296,6 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>javancss-maven-plugin</artifactId>
-        <version>2.0</version>
       </plugin>
     </plugins>
   </reporting>
@@ -323,7 +313,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-antrun-plugin</artifactId>
-            <version>1.7</version>
             <executions>
               <execution>
                 <id>prepare-checkout</id>
@@ -334,23 +323,94 @@
                 <configuration>
                   <tasks>
                     <exec executable="svn">
-                      <arg line="checkout --depth immediates ${commons.scmPubUrl} ${commons.scmPubCheckoutDirectory}" />
+                      <arg line="checkout --depth immediates ${commons.scmPubUrl} ${commons.scmPubCheckoutDirectory}"/>
                     </exec>
 
                     <exec executable="svn">
-                      <arg line="update --set-depth exclude ${commons.scmPubCheckoutDirectory}/javadocs" />
+                      <arg line="update --set-depth exclude ${commons.scmPubCheckoutDirectory}/javadocs"/>
                     </exec>
 
                     <pathconvert pathsep=" " property="dirs">
-                      <dirset dir="${commons.scmPubCheckoutDirectory}" includes="*" />
+                      <dirset dir="${commons.scmPubCheckoutDirectory}" includes="*"/>
                     </pathconvert>
                     <exec executable="svn">
-                      <arg line="update --set-depth infinity ${dirs}" />
+                      <arg line="update --set-depth infinity ${dirs}"/>
                     </exec>
                   </tasks>
                 </configuration>
               </execution>
             </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>travis</id>
+      <activation>
+        <property>
+          <name>env.TRAVIS</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${commons.jacoco.version}</version>
+            <executions>
+              <execution>
+                <id>default-prepare-agent</id>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>default-prepare-agent-integration</id>
+                <goals>
+                  <goal>prepare-agent-integration</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>default-report</id>
+                <goals>
+                  <goal>report</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>default-report-integration</id>
+                <goals>
+                  <goal>report-integration</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>default-check</id>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+                <configuration>
+                  <rules>
+                    <!--  implementation is needed only for Maven 2  -->
+                    <rule implementation="org.jacoco.maven.RuleConfiguration">
+                      <element>BUNDLE</element>
+                      <limits>
+                        <!--  implementation is needed only for Maven 2  -->
+                        <limit implementation="org.jacoco.report.check.Limit">
+                          <counter>COMPLEXITY</counter>
+                          <value>COVEREDRATIO</value>
+                          <minimum>0.60</minimum>
+                        </limit>
+                      </limits>
+                    </rule>
+                  </rules>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.eluder.coveralls</groupId>
+            <artifactId>coveralls-maven-plugin</artifactId>
+            <version>3.1.0</version>
           </plugin>
         </plugins>
       </build>

@@ -27,7 +27,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 /**
- * Unit tests for {@link org.apache.commons.text.similarity.LevenshteinDistance}.
+ * Unit tests for {@link LevenshteinDistance}.
  */
 @RunWith(Parameterized.class)
 public class ParameterizedLevenshteinDistanceTest {
@@ -118,7 +118,7 @@ public class ParameterizedLevenshteinDistanceTest {
 
     @Test
     public void test() {
-        LevenshteinDistance metric = new LevenshteinDistance(threshold);
+        final LevenshteinDistance metric = new LevenshteinDistance(threshold);
         assertThat(metric.apply(left, right), equalTo(distance));
     }
 

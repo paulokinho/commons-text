@@ -21,8 +21,17 @@ import java.util.Map;
 /**
  * Measures the cosine distance between two character sequences.
  *
- * <p>It utilizes the CosineSimilarity to compute the distance. Character sequences
- * are converted into vectors through a simple tokenizer that works with </p>
+ * <p>It utilizes the {@link CosineSimilarity} to compute the distance. Character sequences
+ * are converted into vectors through a simple tokenizer that works with a regular expression
+ * to split words in a sentence.</p>
+ *
+ * <p>
+ * For further explanation about Cosine Similarity and Cosine Distance, refer to
+ * http://en.wikipedia.org/wiki/Cosine_similarity.
+ * </p>
+ *
+ * @since 1.0
+ * @see CosineSimilarity
  */
 public class CosineDistance implements EditDistance<Double> {
     /**
@@ -35,13 +44,13 @@ public class CosineDistance implements EditDistance<Double> {
     private final CosineSimilarity cosineSimilarity = new CosineSimilarity();
 
     @Override
-    public Double apply(CharSequence left, CharSequence right) {
-        CharSequence[] leftTokens = tokenizer.tokenize(left);
-        CharSequence[] rightTokens = tokenizer.tokenize(right);
+    public Double apply(final CharSequence left, final CharSequence right) {
+        final CharSequence[] leftTokens = tokenizer.tokenize(left);
+        final CharSequence[] rightTokens = tokenizer.tokenize(right);
 
-        Map<CharSequence, Integer> leftVector = Counter.of(leftTokens);
-        Map<CharSequence, Integer> rightVector = Counter.of(rightTokens);
-        double similarity = cosineSimilarity.cosineSimilarity(leftVector, rightVector);
+        final Map<CharSequence, Integer> leftVector = Counter.of(leftTokens);
+        final Map<CharSequence, Integer> rightVector = Counter.of(rightTokens);
+        final double similarity = cosineSimilarity.cosineSimilarity(leftVector, rightVector);
         return 1.0 - similarity;
     }
 

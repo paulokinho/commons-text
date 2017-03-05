@@ -30,6 +30,8 @@ import java.util.Locale;
  * <p>
  * This code has been adapted from Apache Commons Lang 3.3.
  * </p>
+ *
+ * @since 1.0
  */
 public class FuzzyScore {
 
@@ -78,7 +80,7 @@ public class FuzzyScore {
      * @throws IllegalArgumentException if either String input {@code null} or
      *             Locale input {@code null}
      */
-    public Integer fuzzyScore(CharSequence term, CharSequence query) {
+    public Integer fuzzyScore(final CharSequence term, final CharSequence query) {
         if (term == null || query == null) {
             throw new IllegalArgumentException("Strings must not be null");
         }

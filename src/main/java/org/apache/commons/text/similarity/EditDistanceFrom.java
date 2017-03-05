@@ -48,6 +48,7 @@ package org.apache.commons.text.similarity;
  * </pre>
  *
  * @param <R> This is the type of similarity score used by the EditDistance function.
+ * @since 1.0
  */
 public class EditDistanceFrom<R> {
 
@@ -86,7 +87,7 @@ public class EditDistanceFrom<R> {
      * @param right the second CharSequence
      * @return the similarity score between two CharSequences
      */
-    public R apply(CharSequence right) {
+    public R apply(final CharSequence right) {
         return editDistance.apply(left, right);
     }
 

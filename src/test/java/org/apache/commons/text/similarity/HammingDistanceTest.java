@@ -22,7 +22,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Unit tests for {@link org.apache.commons.text.similarity.HammingDistance}.
+ * Unit tests for {@link HammingDistance}.
  */
 public class HammingDistanceTest {
 

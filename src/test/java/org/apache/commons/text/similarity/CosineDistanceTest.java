@@ -25,7 +25,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Unit tests for {@link org.apache.commons.text.similarity.CosineSimilarity}.
+ * Unit tests for {@link CosineSimilarity}.
  */
 public class CosineDistanceTest {
 
@@ -63,7 +63,7 @@ public class CosineDistanceTest {
      * @param value a value
      * @return rounded up value
      */
-    private Double roundValue(Double value) {
+    private Double roundValue(final Double value) {
         return (Double) new BigDecimal(value).setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 

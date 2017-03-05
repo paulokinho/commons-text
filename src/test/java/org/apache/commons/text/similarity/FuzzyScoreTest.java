@@ -23,7 +23,7 @@ import java.util.Locale;
 import org.junit.Test;
 
 /**
- * Unit tests for {@link org.apache.commons.text.similarity.FuzzyScore}.
+ * Unit tests for {@link FuzzyScore}.
  */
 public class FuzzyScoreTest {
 

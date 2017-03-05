@@ -25,6 +25,8 @@ import java.util.regex.Pattern;
  * A simple word tokenizer that utilizes regex to find words. It applies a regex
  * {@code}(\w)+{@code} over the input text to extract words from a given character
  * sequence.
+ *
+ * @since 1.0
  */
 class RegexTokenizer implements Tokenizer<CharSequence> {
 
@@ -34,13 +36,13 @@ class RegexTokenizer implements Tokenizer<CharSequence> {
      * @throws IllegalArgumentException if the input text is blank
      */
     @Override
-    public CharSequence[] tokenize(CharSequence text) {
+    public CharSequence[] tokenize(final CharSequence text) {
         if (text == null || text.toString().trim().equals("")) {
             throw new IllegalArgumentException("Invalid text");
         }
-        Pattern pattern = Pattern.compile("(\\w)+");
-        Matcher matcher = pattern.matcher(text.toString());
-        List<String> tokens = new ArrayList<String>();
+        final Pattern pattern = Pattern.compile("(\\w)+");
+        final Matcher matcher = pattern.matcher(text.toString());
+        final List<String> tokens = new ArrayList<>();
         while (matcher.find()) {
             tokens.add(matcher.group(0));
         }

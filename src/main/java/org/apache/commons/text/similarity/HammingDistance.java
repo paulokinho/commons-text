@@ -24,6 +24,8 @@ package org.apache.commons.text.similarity;
  * For further explanation about the Hamming Distance, take a look at its
  * Wikipedia page at http://en.wikipedia.org/wiki/Hamming_distance.
  * </p>
+ *
+ * @since 1.0
  */
 public class HammingDistance implements EditDistance<Integer> {
 
@@ -53,7 +55,7 @@ public class HammingDistance implements EditDistance<Integer> {
      *             if they do not have the same length
      */
     @Override
-    public Integer apply(CharSequence left, CharSequence right) {
+    public Integer apply(final CharSequence left, final CharSequence right) {
         if (left == null || right == null) {
             throw new IllegalArgumentException("Strings must not be null");
         }

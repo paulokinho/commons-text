@@ -17,6 +17,7 @@
 package org.apache.commons.text.diff;
 import java.util.Arrays;
 import java.util.List;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -46,22 +47,25 @@ public class StringsComparatorTest {
     @Test
     public void testExecution() {
         for (int i = 0; i < before.size(); ++i) {
-            final ExecutionVisitor<Character> ev = new ExecutionVisitor<Character>();
+            final ExecutionVisitor<Character> ev = new ExecutionVisitor<>();
             new StringsComparator(before.get(i), after.get(i)).getScript().visit(ev);
             Assert.assertEquals(after.get(i), ev.getString());
         }
     }
     private class ExecutionVisitor<T> implements CommandVisitor<T> {
-        private StringBuilder v;
+        private final StringBuilder v;
         public ExecutionVisitor() {
             v = new StringBuilder();
         }
+        @Override
         public void visitInsertCommand(final T object) {
             v.append(object);
         }
+        @Override
         public void visitKeepCommand(final T object) {
             v.append(object);
         }
+        @Override
         public void visitDeleteCommand(final T object) {
         }
         public String getString() {
